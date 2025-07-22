@@ -3,20 +3,24 @@
 module.exports = function (it) {
 	const { pluginId, plugins } = it;
 
-	let result = `ESLint couldn't determine the plugin "${pluginId}" uniquely.
+	let result = `
+❗ ESLint couldn't determine the plugin "${pluginId}" uniquely.
+Multiple versions or instances of the plugin were found:
 `;
 
 	for (const { filePath, importerName } of plugins) {
-		result += `
-- ${filePath} (loaded in "${importerName}")`;
+		result += `\n  • ${filePath}  📦 (loaded in: "${importerName}")`;
 	}
 
 	result += `
 
-Please remove the "plugins" setting from either config or remove either plugin installation.
+🧹 To resolve this issue:
+→ Remove the "plugins" setting from one of the configs
+→ Or uninstall one of the duplicate plugin installations
 
-If you still can't figure out the problem, please see https://eslint.org/docs/latest/use/troubleshooting.
+🔍 Still stuck? Check the ESLint troubleshooting guide:
+https://eslint.org/docs/latest/use/troubleshooting
 `;
 
-	return result;
+	return result.trimStart();
 };
